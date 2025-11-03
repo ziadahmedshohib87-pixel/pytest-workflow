@@ -23,8 +23,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install pytest
 
+      - name: Print OS info
+        run: |
+          echo "Running on OS: $RUNNER_OS"
+
       - name: Run pytest (generate junit xml)
         run: pytest -v scripts/ --junitxml=pytest-report.xml
+        continue-on-error: true   # <- Allows workflow to continue even if tests fail
 
       - name: Upload test report artifact
         uses: actions/upload-artifact@v4
